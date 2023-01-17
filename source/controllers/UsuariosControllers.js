@@ -69,6 +69,7 @@ const crearCuentaUsuario = async (req, res, next) => {
     // En caso contrario me guardaras el usuario en la base de datos
     try {
         await usuario.save();
+        req.flash("correcto","Usuario creado correctamente")
         res.redirect("/iniciar-sesion");
     } catch (error) {
         req.flash("error", error)
