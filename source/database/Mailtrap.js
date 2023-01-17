@@ -1,8 +1,8 @@
 export default {
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: "send.smtp.mailtrap.io",
+    port: 2525 || 587,
     auth: {
-        user: "ee04cbd260a961",
-        pass: "05a72070612c87"
+        user: "api",
+        pass: "4b9ff18947241c4a147eb9028ae1e411"
     }
 }
