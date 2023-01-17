@@ -15,7 +15,7 @@ const validarDatosUsuarios = (req, res, next) => {
     // Ponemos un condicional para verifica si existen o no errores
     // Sino existen errores pasas al siguiente middleware
 
-    if (errores) return next()
+    if (!errores) return next()
     // Recargar la vista y informar los errores
     req.flash("error", errores.map(error => error.msg));
     // Renderizar la vista para informar los errores
