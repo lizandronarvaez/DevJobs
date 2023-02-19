@@ -71,11 +71,9 @@ const crearCuentaUsuario = async (req, res, next) => {
     // En caso contrario me guardaras el usuario en la base de datos
     try {
         const validarCuenta = `http://${req.headers.host}/verficar-cuenta/${email}`
-        const usuario = {
-            email
-        }
+
         await enviarEmail({
-            to: usuario.email,
+            to: user.email,
             subject: 'Confirma tu cuenta, por favor',
             validarCuenta,
             archivo: 'confirmar-cuenta'
