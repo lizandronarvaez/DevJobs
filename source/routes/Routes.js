@@ -31,6 +31,7 @@ route
 
     // Crear cuenta usuario
     .get("/crear-cuenta", usuariosControllers.formCrearUsuario)
+    .get("/verificar-cuenta/:email", usuariosControllers.verificarCuenta)
     .post("/crear-cuenta", validarDatosUsuarios, usuariosControllers.crearCuentaUsuario)
 
     // Iniciar sesion usuario
@@ -41,7 +42,6 @@ route
     .get("/cerrar-sesion", authController.usuarioAutenticado, authController.cerrarSesion)
 
     // verificar la cuenta
-    .get("/verificar-cuenta/:email", usuariosControllers.verificarCuenta)
 
     // Reestablecer password
     .get("/reestablecer-password", authController.reestablecerPasswordForm)

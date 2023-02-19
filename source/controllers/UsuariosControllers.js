@@ -65,7 +65,6 @@ const formCrearUsuario = (req, res) => {
 }
 // Vista metodo post para crear el usuario
 const crearCuentaUsuario = async (req, res, next) => {
-
     // En caso contrario me guardaras el usuario en la base de datos
     try {
         const validarCuenta = `http://${req.headers.host}/validar-cuenta/${req.body.email}`
@@ -95,10 +94,10 @@ const verificarCuenta = async (req, res) => {
 
     if (!usuario) {
         req.flash('error', 'Hubo un error en la validacion de la cuenta')
-        res.redirect('/nueva-cuenta')
+        res.redirect('/crear-cuenta')
     } else {
-        usuario.confirmarCuenta = 1
-        usuario.save()
+        usuario.confirmarCuenta = 1;
+        usuario.save();
         req.flash('correcto', 'Tu cuenta se ha validado correctamente')
         res.redirect('/iniciar-sesion')
     }
