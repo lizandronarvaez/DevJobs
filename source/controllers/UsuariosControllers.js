@@ -69,7 +69,7 @@ const crearCuentaUsuario = async (req, res, next) => {
     const usuario = new Usuario(req.body);
     // En caso contrario me guardaras el usuario en la base de datos
     try {
-        const validarCuenta = `http://${req.headers.host}/validar-cuenta/${req.body.email}`
+        const validarCuenta = `http://${req.headers.host}/verficar-cuenta/${req.body.email}`
         const user = {
             email
         }
