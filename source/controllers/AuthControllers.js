@@ -1,5 +1,5 @@
 import passport from "passport";
-import mongoose, { now } from "mongoose";
+import mongoose from "mongoose";
 const Vacante = mongoose.model("Vacante");
 const Usuario = mongoose.model("Usuarios");
 import crypto from "crypto";

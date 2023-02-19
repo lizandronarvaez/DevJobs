@@ -40,6 +40,9 @@ route
     // Cerrar Sesion usuario
     .get("/cerrar-sesion", authController.usuarioAutenticado, authController.cerrarSesion)
 
+    // verificar la cuenta
+    .get("/verificar-cuenta/:email", usuariosControllers.verificarCuenta)
+
     // Reestablecer password
     .get("/reestablecer-password", authController.reestablecerPasswordForm)
     .post("/reestablecer-password", authController.reestablecerPassword)

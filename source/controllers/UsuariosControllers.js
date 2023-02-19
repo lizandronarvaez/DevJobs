@@ -5,6 +5,7 @@ import shortid from "shortid";
 // 
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
+import enviarEmail from "../handlers/nodemailer";
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Funcion para subir imagen
@@ -59,7 +60,7 @@ const upload = multer(configuracionMulter).single("imagen");
 const formCrearUsuario = (req, res) => {
     res.render("crear-cuenta", {
         tituloPagina: "Crea tu cuenta en DevJobs",
-        tagLine: "Publica tus vacantes gratis,crea una cuenta y empieza ya!",
+        tagLine: "Publica tus vacantes, crea una cuenta y empieza ya!",
     })
 }
 // Vista metodo post para crear el usuario
@@ -68,12 +69,37 @@ const crearCuentaUsuario = async (req, res, next) => {
     const usuario = new Usuario(req.body);
     // En caso contrario me guardaras el usuario en la base de datos
     try {
+        const validarCuenta = `http://${req.headers.host}/validar-cuenta/${req.body.email}`
+        const user = {
+            email
+        }
+        await enviarEmail({
+            usuario: user.email,
+            subject: 'Confirma tu cuenta, por favor',
+            validarCuenta,
+            archivo: 'confirmar-cuenta'
+        })
         await usuario.save();
-        req.flash("correcto","Usuario creado correctamente")
+        req.flash("correcto", "Usuario creado correctamente")
         res.redirect("/iniciar-sesion");
     } catch (error) {
         req.flash("error", error)
         res.redirect("/crear-cuenta");
+    }
+}
+// Verificar la cuenta
+const verificarCuenta = async (req, res) => {
+    // Cambia el estado de la cuenta
+    const usuario = await Usuario.findOne({ email: req.params.email })
+
+    if (!usuario) {
+        req.flash('error', 'Hubo un error en la validacion de la cuenta')
+        res.redirect('/nueva-cuenta')
+    } else {
+        usuario.confirmarCuenta = 1
+        usuario.save()
+        req.flash('correcto', 'Tu cuenta se ha validado correctamente')
+        res.redirect('/iniciar-sesion')
     }
 }
 
@@ -89,17 +115,17 @@ const formIniciarSesion = (req, res) => {
 const formEditarPerfil = (req, res) => {
     const usuario = req.user;
     // Extramos los daros del usuario autenticado para colocarlos en el frontend
-    const { nombre,imagen } = req.user;
+    const { nombre, imagen } = req.user;
     // 
     res.render("editar-perfil", {
-      tituloPagina: "Edita tu perfil en DevJobs",
-      usuario,
-      cerrarSesion: true,
-      nombre,
-      imagen
+        tituloPagina: "Edita tu perfil en DevJobs",
+        usuario,
+        cerrarSesion: true,
+        nombre,
+        imagen
     })
-  }
-  
+}
+
 // Guardar cambios si el usuario cambia su perfil
 const editarPerfil = async (req, res) => {
     // Consulta el usuario ala base de datos y lo extrae
@@ -128,5 +154,6 @@ export default {
     crearCuentaUsuario,
     formIniciarSesion,
     editarPerfil,
-    formEditarPerfil
+    formEditarPerfil,
+    verificarCuenta
 }
