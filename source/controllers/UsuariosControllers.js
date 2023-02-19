@@ -5,7 +5,7 @@ import shortid from "shortid";
 // 
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import enviarEmail from "../handlers/nodemailer";
+import enviarEmail from "../handlers/nodemailer.js";
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Funcion para subir imagen
