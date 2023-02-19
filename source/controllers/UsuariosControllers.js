@@ -66,21 +66,21 @@ const formCrearUsuario = (req, res) => {
 // Vista metodo post para crear el usuario
 const crearCuentaUsuario = async (req, res, next) => {
     // Datos para crear el usuario en el modelo
-    const usuario = new Usuario(req.body);
-    const {email} = req.body
+    const user = new Usuario(req.body);
+    const { email } = req.body
     // En caso contrario me guardaras el usuario en la base de datos
     try {
         const validarCuenta = `http://${req.headers.host}/verficar-cuenta/${email}`
-        const user = {
+        const usuario = {
             email
         }
         await enviarEmail({
-            usuario: user.email,
+            to: usuario.email,
             subject: 'Confirma tu cuenta, por favor',
             validarCuenta,
             archivo: 'confirmar-cuenta'
         })
-        await usuario.save();
+        await user.save();
         req.flash("correcto", "Usuario creado correctamente")
         res.redirect("/iniciar-sesion");
     } catch (error) {
