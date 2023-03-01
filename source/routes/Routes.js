@@ -31,7 +31,6 @@ route
 
     // Crear cuenta usuario
     .get("/crear-cuenta", usuariosControllers.formCrearUsuario)
-    .get("/verificar-cuenta/:email", usuariosControllers.verificarCuenta)
     .post("/crear-cuenta", validarDatosUsuarios, usuariosControllers.crearCuentaUsuario)
 
     // Iniciar sesion usuario

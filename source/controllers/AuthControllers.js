@@ -8,14 +8,15 @@ import enviarEmail from "../handlers/nodemailer.js"
 /*Este controlador permite autenticar las contraseña y redireccionarte a la pagina solicitada 
   sino fuese correcta la autenticacion la autenticacion fallara y redirecccionara ala misma pagina
 */
-const autenticarUsuario = passport.authenticate("local", {
+const autenticarUsuario = passport.authenticate("local",{
   successRedirect: "/administracion",
   failureRedirect: "/iniciar-sesion",
   failureFlash: true,
-  badRequestMessage: "Ambos campos son obligatorios"
+  badRequestMessage: "Ambos campos son obligatorios",
 })
 // Funcion que comprueba que el usuario esta autenticado
 const usuarioAutenticado = (req, res, next) => {
+
   // Si el usuario esta autenticado va a pasar al sigueinte middleware
   if (req.isAuthenticated()) {
     return next()
@@ -54,7 +55,7 @@ const cerrarSesion = (req, res, next) => {
 
 // Reestablecer password
 // @get
-const reestablecerPasswordForm = (req, res, next) => {
+const reestablecerPasswordForm = (req, res) => {
   res.render("reestablecer-password", {
     tituloPagina: "Reestablece tu password",
     tagLine: "Si ya tienes cuenta, y olvidastes tu contraseña, reestablecela",
@@ -62,7 +63,7 @@ const reestablecerPasswordForm = (req, res, next) => {
   })
 }
 // @post
-const reestablecerPassword = async (req, res, next) => {
+const reestablecerPassword = async (req, res) => {
 
   const usuario = await Usuario.findOne({ email: req.body.email })
   // Si el usuario no existe
@@ -111,9 +112,9 @@ const verificarToken = async (req, res) => {
 }
 
 // @post
-const cambiarPassword = async (req, res, next) => {
+const cambiarPassword = async (req, res,) => {
   const { token } = req.params;
-  const { password, confirmarPassword } = req.body;
+  const { password} = req.body;
   const usuario = await Usuario.findOne({
     token,
     expiracion: {

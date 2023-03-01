@@ -16,9 +16,10 @@ passport.use(
             // -----------------------------------------------------------------------------------------------------
             // Luego buscara un usuario con el correo introducido en la base de datos y devolver un booleano
             const usuario = await Usuarios.findOne({ email })
+
             // Si no encuentra el usuario devolvera un mensaje
             if (!usuario) return done(null, false, {
-                message: "El usuario no existe"
+                message: "El email introducido, no esta registrado"
             })
             // --------------------------------------------------------------------------------------------------
             // Verificar la password si el usuario existe

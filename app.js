@@ -92,11 +92,14 @@ app.use((error, req, res, next) => {
 
 // Dejar que railway asigen el puerto y el host automatico
 const host = "0.0.0.0";
-const port = process.env.PORT
+const port = process.env.PORT || 8000
 // Funcion para levantar el servidor
 
-const PORT = process.env.PORT || 800;
 app.listen(port, host, () => {
     console.info(colors.blue(`El servidor se ha iniciado correctamente`))
 
 })
+// const puerto=3000
+// app.listen(puerto,()=>{
+//     console.log(`http://localhost:${puerto}`)
+// }) 
