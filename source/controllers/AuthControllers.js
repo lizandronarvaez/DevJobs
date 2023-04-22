@@ -16,7 +16,6 @@ const autenticarUsuario = passport.authenticate("local",{
 })
 // Funcion que comprueba que el usuario esta autenticado
 const usuarioAutenticado = (req, res, next) => {
-
   // Si el usuario esta autenticado va a pasar al sigueinte middleware
   if (req.isAuthenticated()) {
     return next()

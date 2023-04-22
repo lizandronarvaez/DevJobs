@@ -6,7 +6,7 @@ import shortid from "shortid";
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
+import enviarEmailUsuario from "../handlers/nodemailer.js"
 // Funcion para subir imagen
 const subirImagen = (req, res, next) => {
     upload(req, res, (error) => {
@@ -66,8 +66,8 @@ const formCrearUsuario = (req, res) => {
 const crearCuentaUsuario = async (req, res) => {
 
     try {
-        const user = new Usuario(req.body);
         // Datos para crear el usuario en el modelo
+        const user = new Usuario(req.body);
         req.flash("correcto", "Valida tu cuenta en el correo electronico con el que te haz registrado")
         res.redirect("/iniciar-sesion");
         await user.save();
@@ -75,34 +75,47 @@ const crearCuentaUsuario = async (req, res) => {
         req.flash("error", error.message)
         res.redirect("/crear-cuenta");
     }
-    // // 
-    // const validarCuenta = `http://${req.headers.host}/verificar-cuenta/${req.body.email}`
-    // console.log(validarCuenta)
-    // const usuario = await Usuario.findOne({ email: req.body.email })
+    // 
+    const validarCuenta = `http://${req.headers.host}/verificar-cuenta/${req.body.email}`
+    const usuario = await Usuario.findOne({ email: req.body.email })
     // console.log(usuario)
-    // await enviarEmail({
-    //     usuario,
-    //     subject: 'Confirma tu cuenta, por favor',
-    //     validarCuenta,
-    //     archivo: 'confirmar-cuenta'
-    // })
+    await enviarEmailUsuario({
+        usuario,
+        subject: 'Confirma tu cuenta, por favor',
+        validarCuenta,
+        archivo: 'confirmar-cuenta'
+    })
 }
 // // Verificar la cuenta
-// const verificarCuenta = async (req, res) => {
-//     // Cambia el estado de la cuenta
-//     const usuario = await Usuario.findOne({ email: req.params.email })
+const confirmarCuenta = async (req, res) => {
+    // Cambia el estado de la cuenta
+    const usuario = await Usuario.findOne({ email: req.params.email })
 
-//     if (!usuario) {
-//         req.flash('error', 'Hubo un error en la validacion de la cuenta')
-//         res.redirect('/crear-cuenta')
-//     }
-//     usuario.confirmarCuenta = 1;
-//     usuario.save();
-//     req.flash('correcto', 'Tu cuenta se ha validado correctamente')
-//     res.redirect('/iniciar-sesion')
+    if (!usuario) {
+        req.flash('error', 'Hubo un error en la validacion de la cuenta')
+        res.redirect('/crear-cuenta')
+    } else {
+        usuario.confirmarCuenta = 1;
+        usuario.save();
+        req.flash('correcto', 'Tu cuenta se ha validado correctamente')
+        res.redirect('/iniciar-sesion')
+    }
 
-// }
-
+}
+// metodo para verificar que el usuario tiene la cuenta verifica
+const verificarCuenta = async (req, res, next) => {
+    const { email } = req.body;
+    // Busca el usuario
+    const usuario = await Usuario.findOne({ email });
+    // si no esta verifica nos emite un error
+    if (usuario.confirmarCuenta === 0) {
+        req.flash("error", "Debes confirmar tu cuenta para iniciar sesion")
+        res.redirect("/iniciar-sesion")
+        return
+    }
+    // si esta verificada para al sigueinte middlware
+    next();
+}
 // Vista metodo para renderizar el formulario de iniciar sesion
 const formIniciarSesion = (req, res) => {
     res.render("iniciar-sesion", {
@@ -155,4 +168,6 @@ export default {
     formIniciarSesion,
     editarPerfil,
     formEditarPerfil,
+    confirmarCuenta,
+    verificarCuenta
 }

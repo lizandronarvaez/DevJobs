@@ -28,6 +28,8 @@ transport.use("compile", handlebars({
 
 
 const enviarEmailUsuario = async (opciones) => {
+
+    // console.log(opciones)
     // Creamos la configuracion para enviar el email al usuario
     const opcionesEmail = {
         from: "plataformaDevJob@hotmail.com",
@@ -35,7 +37,8 @@ const enviarEmailUsuario = async (opciones) => {
         subject: opciones.subject,
         template: opciones.archivo,
         context: {
-            resetUrl: opciones.resetUrl
+            resetUrl: opciones.resetUrl,
+            validarCuenta:opciones.validarCuenta
         }
     }
     // Creamos el callback para hacer el envio

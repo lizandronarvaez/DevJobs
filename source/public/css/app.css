@@ -495,6 +495,7 @@ p.candidatos {
 
 .cerrar-sesion p,
 .cerrar-sesion a {
+    text-transform: capitalize;
     margin: 0 2rem 0 0;
     color: #888;
 }

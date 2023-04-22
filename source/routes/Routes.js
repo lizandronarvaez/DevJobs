@@ -35,12 +35,13 @@ route
 
     // Iniciar sesion usuario
     .get("/iniciar-sesion", usuariosControllers.formIniciarSesion)
-    .post("/iniciar-sesion", authController.autenticarUsuario)
+    .post("/iniciar-sesion",usuariosControllers.verificarCuenta, authController.autenticarUsuario)
 
     // Cerrar Sesion usuario
     .get("/cerrar-sesion", authController.usuarioAutenticado, authController.cerrarSesion)
 
     // verificar la cuenta
+    .get("/verificar-cuenta/:email", usuariosControllers.confirmarCuenta)
 
     // Reestablecer password
     .get("/reestablecer-password", authController.reestablecerPasswordForm)

@@ -34,7 +34,7 @@ const usuariosSchema = new mongoose.Schema({
 // .pre---antes que se guarde me haces esto
 usuariosSchema.pre("save", async function (next) {
     // Verifica si la password esta hasheada
-    if ( this.isNew || !this.isModified("password")) return next()
+    if (!this.isModified("password")) return next()
     // Sino esta hasheada se va a realizar el hasheo
     this.password = await bcrypt.hash(this.password, 12);
     // Si todo es correcto pasa al sigueinte middleware
