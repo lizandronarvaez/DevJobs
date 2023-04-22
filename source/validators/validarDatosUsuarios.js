@@ -5,12 +5,14 @@ const validarDatosUsuarios = (req, res, next) => {
     req.sanitizeBody("email").escape();
     req.sanitizeBody("password").escape();
     req.sanitizeBody("confirmarPassword").escape();
+
     //Validar las entradas
     req.checkBody("nombre", "Nombre es un campo obligatorio").notEmpty();
     req.checkBody("email", "Email es un campo obligatorio y valido").isEmail();
     req.checkBody("password", "Password es un campo obligatorio").notEmpty();
     req.checkBody("confirmarPassword", "Repetir Password es un campo obligatorio").notEmpty();
-    req.checkBody("confirmarPassword", "El password es diferente").equals(password);
+    req.checkBody("confirmarPassword", "Las contraseñas no coinciden").equals(password);
+    
     const errores = req.validationErrors();
     // Ponemos un condicional para verifica si existen o no errores
     // Sino existen errores pasas al siguiente middleware
