@@ -504,10 +504,11 @@ p.candidatos {
     margin-top: 2rem;
     color: white;
     display: flex;
+    align-items: baseline;
 }
 
-.cerrar-sesion img {
-    width: 80px;
+.cerrar-sesion .admin-perfil {
+    width: 40px;
 }
 
 .botones {

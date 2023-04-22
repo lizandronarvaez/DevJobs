@@ -9,6 +9,7 @@
     <title>{{tituloPagina}}</title>
     <link rel="stylesheet" type="text/css" href="/css/app.css">
     <link rel="stylesheet" type="text/css" href="/css/trix.css">
+
 </head>
 
 <body>
@@ -26,12 +27,14 @@
         {{/if}}
         {{#if cerrarSesion}}
         <div class="cerrar-sesion">
-            <p>Hola! {{nombre}}</p>
-            {{#if imagen}}
+            <p> {{#if imagen}}
                 <img src="/uploads/perfiles/{{imagen}}" alt="imagen perfil" class="admin-perfil">
-            {{/if}}
+                {{/if}}
+                <img src="/css/assets/trix/images/user.svg" alt="icon user">{{nombre}}
+
+            </p>
             <a href="/administracion">Administracion</a>
-            <a href="/cerrar-sesion">Cerrar Sesion</a>
+            <a href="/cerrar-sesion">Cerrar Sesion<img src="/css/assets/trix/images/logout.svg" alt="icon logout"></a>
         </div>
         {{/if}}
     </div>

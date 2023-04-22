@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // Importamos las dependecias
 import colors from "colors";
 import mongoose from "mongoose"
@@ -99,7 +100,3 @@ app.listen(port, host, () => {
     console.info(colors.blue(`El servidor se ha iniciado correctamente`))
 
 })
-// const puerto=3000
-// app.listen(puerto,()=>{
-//     console.log(`http://localhost:${puerto}`)
-// }) 
