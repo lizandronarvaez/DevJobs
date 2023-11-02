@@ -4,3 +4,4 @@ public/uploads/perfiles/*
 variables.env
 esbuild.dev.js
 dist/
+.gitignore
