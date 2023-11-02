@@ -3,22 +3,23 @@
 import colors from "colors";
 import mongoose from "mongoose"
 import MongoStore from "connect-mongo";
-import "./source/database/Config.js"
+import "./src/database/Config.js"
 import express from "express";
-import route from "./source/routes/Routes.js";
+import route from "./src/routes/Routes.js";
 import Handlebars from "handlebars";
 import expHbs from "express-handlebars";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import helpers from "./source/helpers/Handlebars.js"
+import helpers from "./src/helpers/Handlebars.js"
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import ExpressValidator from "express-validator";
 import flash from "connect-flash";
-import passport from "./source/database/Passport.js"
+import passport from "./src/database/Passport.js"
 import errorCreate from "http-errors"
+
 // Mongostre con session
 const store = new MongoStore({
     mongoUrl: process.env.DATABASE,
@@ -37,8 +38,8 @@ app.use(express.urlencoded({ extended: true }))
 // Express validator
 app.use(ExpressValidator())
 // Estblecemos la ruta de la vista
-const pathLayout = path.join(__dirname, "/source/views/layouts")
-const pathViews = path.join(__dirname, "/source/views")
+const pathLayout = path.join(__dirname, "/src/views/layouts")
+const pathViews = path.join(__dirname, "/src/views")
 const hbs = expHbs.create({
     defaulLayout: "main",
     layoutsDir: pathLayout,
@@ -51,8 +52,8 @@ app.set("view engine", "handlebars")
 app.set("views", pathViews)
 
 // Establecemos las rutas estaticas
-const Public = path.join(__dirname, "/source/public")
-const css = path.join(__dirname, "/source/views/styles")
+const Public = path.join(__dirname, "/src/public")
+const css = path.join(__dirname, "/src/views/styles")
 app.use(express.static(Public))
 app.use(express.static(css))
 // Cookie-parser  and Session
@@ -82,7 +83,7 @@ app.use((req, res, next) => {
     next(errorCreate(404, "Pagina no encontrada"));
 })
 
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.locals.mensaje = error.message;
     const status = error.status || 500;
     res.locals.status = status;
